@@ -3,7 +3,7 @@ var height = 1000;
 var wxh = width*height;
 
 var list = new Array(wxh);
-var ab = new Uint32Array(wxh);
+var ab = new Uint16Array(wxh);
 var num_iterations = 10;
 
 if (typeof document !== 'undefined') {
@@ -21,8 +21,12 @@ if (typeof document !== 'undefined') {
     var background_ctx = background_canvas.getContext('2d');
 
     var zoom_factor = 1;
-    // var cs = chroma.scale(['white', 'red']).mode('lab').domain([0, 255]);
+
+    // Create a colour scale mapped between 0 and 255
     var cs = chroma.scale('Viridis').mode('lab').domain([0, 255]);
+
+    // Now cache the colours to optimise the access
+    // Report how long it takes.
     var cs_cache = [];
     var c0 = performance.now();
     for (var i=0; i < 256; i++) {
@@ -30,6 +34,15 @@ if (typeof document !== 'undefined') {
     }
     var c1 = performance.now();
     console.log('Caching colourmap took:', c1-c0);
+
+    // The minimum and maximum values for the data
+    var data_min = 0;
+    var data_max = 65535;
+
+    // The minimum and maximum data values to map to the colour scale
+    var scale_min = 0;
+    var scale_max = 255;
+
 } else {
     // Performance for nodejs
     console.log(process.hrtime());
@@ -258,11 +271,6 @@ function do_it() {
 // While loop av over 50 draws is 19.108 ms
 // For loop av over 50 draws is 19.956 ms
 function draw_canvas() {
-    var data_min = 0;
-    var data_max = 65535;
-    var scale_min = 0;
-    var scale_max = 255;
-
     var t0 = performance.now();
     var max_index = canvas.width * canvas.height * 4
 
@@ -286,8 +294,11 @@ function draw_canvas() {
 
     // Cached colourmap
     var v;
-    for (var index = 0; index <= max_index; index += 4) {
-        v = ab[index]; console.log(v);
+    for (var index = 0, data_index = 0; index <= max_index; index += 4, data_index++) {
+        // Clamp the data between the min and max displayed values
+        v = Math.min(scale_max, Math.max(scale_min, ab[data_index]));
+        // Scale the clamped value between 0 and 255
+        v = (255 *(v - scale_min) / (scale_max - scale_min)) | 0;
         image_data.data[index] = cs_cache[v][0]; //red
         image_data.data[index + 1] = cs_cache[v][1]; //green
         image_data.data[index + 2] = cs_cache[v][2]; //blue
@@ -329,6 +340,12 @@ function zoom_in() {
 function zoom_out() {
     zoom_factor -= 1;
     console.log(zoom_factor);
+    draw_canvas();
+}
+
+function scale_up() {
+    scale_min += 10;
+    scale_max += 10;
     draw_canvas();
 }
 
