@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Array</title>
+    <link rel="stylesheet" type="text/css" href="test_arrays.css">
+</head>
+<body>
+    <label for="width">Width:<input type="text" value="1000" name="width" id="width"></input></label>
+
+    <label for="height">Height:<input type="text" value="1000" name="height" id="height"></input></label>
+
+    <br>
+    <button onclick="do_it()">Test Array Loops</button>
+    <button onclick="draw_canvas()">Draw</button>
+    <button onclick="zoom_in()">In</button>
+    <button onclick="zoom_out()">Out</button>
+    <span id="draw_time"></span>
+    <span id="av_draw_time"></span>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>TYPE</th>
+                <th>WRITE FOR</th>
+                <th>WRITE WHILE</th>
+                <th>WRITE IN</th>
+                <th>READ FOR</th>
+                <th>READ WHILE</th>
+                <th>READ IN</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>LIST</td>
+                <td id="list_for">0</td>
+                <td id="list_while"></td>
+                <td id="list_in">0</td>
+                <td id="read_list_for">0</td>
+                <td id="read_list_while">0</td>
+                <td id="read_list_in">0</td>
+            </tr>
+            <tr>
+                <td>AB</td>
+                <td id="ab_for">0</td>
+                <td id="ab_while"></td>
+                <td id="ab_in">0</td>
+                <td id="read_ab_for">0</td>
+                <td id="read_ab_while">0</td>
+                <td id="read_ab_in">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <canvas id="image_canvas" width=1000 height=1000></canvas>
+    <script type="text/javascript" src="chroma.js"></script>
+    <script type="text/javascript" src="test_arrays.js"></script>
+</body>
+</html>
