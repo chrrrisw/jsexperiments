@@ -6,18 +6,27 @@ var list = new Array(wxh);
 var ab = new Uint16Array(wxh);
 var num_iterations = 10;
 
+// Variables to display average draw time.
 var draw_total = 0;
 var draw_number = 0;
+
+// Get the canvas and context, turn off smoothing
 var canvas = document.getElementById('image_canvas');
 var ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 
+// Create an ImageData object
 var image_data = ctx.createImageData(canvas.width, canvas.height);
 
+// Create a background canvas for offscreen rendering, and a context for it.
 var background_canvas = document.createElement('canvas');
 background_canvas.width = canvas.width;
 background_canvas.height = canvas.height;
 var background_ctx = background_canvas.getContext('2d');
+
+// Get the colour scale range elements
+var cs_min = document.getElementById('cs_min');
+var cs_max = document.getElementById('cs_max');
 
 var zoom_factor = 1;
 
@@ -127,11 +136,19 @@ function scale_up() {
 
 function update_lower(value) {
     scale_min = parseInt(value);
+    if (scale_min > scale_max) {
+        scale_max = Math.min(cs_max.max, scale_min + 1);
+        cs_max.value = scale_max;
+    }
     draw_canvas();
 }
 
 function update_upper(value) {
     scale_max = parseInt(value);
+    if (scale_max < scale_min) {
+        scale_min = Math.max(cs_min.min, scale_max - 1);
+        cs_min.value = scale_min
+    }
     draw_canvas();
 }
 

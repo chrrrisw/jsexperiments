@@ -9,8 +9,8 @@
     <label for="height">Height:<input type="text" value="1000" name="height" id="height"/></label>
     <br>
 
-    <input type="range" min="0" max="65535" value="0" oninput="update_lower(this.value)"/>
-    <input type="range" min="0" max="65535" value="255" oninput="update_upper(this.value)"/>
+    <input id="cs_min" type="range" min="0" max="65535" value="0" oninput="update_lower(this.value)"/>
+    <input id="cs_max" type="range" min="0" max="65535" value="255" oninput="update_upper(this.value)"/>
 
     <br>
 
