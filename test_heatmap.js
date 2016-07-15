@@ -1,3 +1,5 @@
+"use strict";
+
 var width = 10000;
 var height = 1000;
 var wxh = width*height;
@@ -136,19 +138,21 @@ function scale_up() {
 
 function update_lower(value) {
     scale_min = parseInt(value);
-    if (scale_min > scale_max) {
-        scale_max = Math.min(cs_max.max, scale_min + 1);
+    if (scale_min >= scale_max) {
+        scale_max = Math.min(parseInt(cs_max.max), scale_min + 1);
         cs_max.value = scale_max;
     }
+    if (scale_min == scale_max) scale_min = scale_max - 1;
     draw_canvas();
 }
 
 function update_upper(value) {
     scale_max = parseInt(value);
-    if (scale_max < scale_min) {
-        scale_min = Math.max(cs_min.min, scale_max - 1);
+    if (scale_max <= scale_min) {
+        scale_min = Math.max(parseInt(cs_min.min), scale_max - 1);
         cs_min.value = scale_min
     }
+    if (scale_min == scale_max) scale_max = scale_min + 1;
     draw_canvas();
 }
 
