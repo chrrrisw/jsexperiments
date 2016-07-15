@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Array</title>
+    <link rel="stylesheet" type="text/css" href="test_arrays.css">
+</head>
+<body>
+    <label for="width">Width:<input type="text" value="1000" name="width" id="width"/></label>
+    <label for="height">Height:<input type="text" value="1000" name="height" id="height"/></label>
+    <br>
+
+    <input type="range" min="0" max="65535" value="0" oninput="update_lower(this.value)"/>
+    <input type="range" min="0" max="65535" value="255" oninput="update_upper(this.value)"/>
+
+    <br>
+
+    <button onclick="draw_canvas()">Draw</button>
+    <button onclick="zoom_in()">In</button>
+    <button onclick="zoom_out()">Out</button>
+    <button onclick="scale_up()">Up</button>
+    <span id="draw_time"></span>
+    <span id="av_draw_time"></span>
+
+    <br>
+
+    <canvas id="image_canvas" width=1000 height=1000></canvas>
+    <script type="text/javascript" src="chroma.js"></script>
+    <script type="text/javascript" src="test_heatmap.js"></script>
+</body>
+</html>
